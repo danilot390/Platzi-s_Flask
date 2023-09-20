@@ -15,10 +15,10 @@
     {% endblock %}
 
     {% for message in get_flashed_messages() %}
-        <div class="alert alert-success alert-dismissible">
-            <button type="button"
-                    data-dismiss="alert"
-                    class="close">&times;</button>
+        <div class="alert alert-success alert-dismissible" role="alert"><button type="button"
+            data-dismiss="alert"
+            class="close">&times;</button>
+            <h4 class="alert-heading">Well done!</h4>
             {{ message }}
         </div>
     {% endfor %}

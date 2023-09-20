@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
+import unittest
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -18,6 +19,12 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sent')
 
+@app.cli.command()
+def test():
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
+
+    #need: export FLASK_APP=main.py
 
 @app.errorhandler(404)
 def not_found(error):
@@ -59,6 +66,8 @@ def hello_post():
     if login_form.validate_on_submit():
         user = login_form.username.data
         session['user'] = user
+
+        flash('User successfully!!')
         context = {
             'login_form' : login_form,
             'todos'   : todos,

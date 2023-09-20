@@ -9,11 +9,7 @@
 {% block content %}
     {% if user %}
         <h1>Welcome, {{ user | capitalize }}</h1>
-        {% if user_ip %}
-            <h3>Your Ip is {{ user_ip }}</h3>
-        {% else %}
-            <a href="{{ url_for('index') }}">Get a Ip</a>
-        {% endif %}
+        
         <ul>
             {% for item in todos %}
                 {{ macros.render_todo(item) }}
@@ -23,5 +19,10 @@
         <div class="container">
             {{ wtf.quick_form(login_form) }}
         </div>
-    {% endif %} 
+    {% endif %}
+    {% if user_ip %}
+            <h3>Your Ip is {{ user_ip }}</h3>
+        {% else %}
+            <a href="{{ url_for('index') }}">Get a Ip</a>
+        {% endif %} 
 {% endblock %}
