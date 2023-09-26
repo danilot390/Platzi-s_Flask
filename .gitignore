@@ -1,3 +1,4 @@
 env/
 __*
-static/images/
+app/static/images/
+!app/__init__.py
