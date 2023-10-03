@@ -1,4 +1,4 @@
 env/
 __*
 app/static/images/
-!app/__init__.py
+!__init__.py

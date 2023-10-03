@@ -1,11 +1,8 @@
-from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
-from flask_bootstrap import Bootstrap
-
+from flask import request, make_response, redirect, render_template, session, url_for, flash
 
 import unittest
 
 from app import create_app
-from app.forms import LoginForm
 
 app = create_app()
 
@@ -41,32 +38,11 @@ def index():
 @app.route('/hello', methods=['GET'])
 def hello():
     user_ip = session.get("user_ip")
-    login_form = LoginForm()
     user = session.get('user')
     context = {
-        'login_form' : login_form,
         'user_ip' : user_ip,
         'todos'   : todos,
         'user' : user,
     }
 
     return render_template('hello.html', **context)
-
-@app.route('/hello', methods=['POST'])
-def hello_post():
-    login_form = LoginForm()
-
-    if login_form.validate_on_submit():
-        user = login_form.username.data
-        session['user'] = user
-
-        flash('User successfully!!')
-        context = {
-            'login_form' : login_form,
-            'todos'   : todos,
-            'user' : user,
-        }
-
-        return render_template('hello.html', **context)
-
-    return render_template('hello.html')
