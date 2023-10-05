@@ -3,11 +3,9 @@ from flask import request, make_response, redirect, render_template, session, ur
 import unittest
 
 from app import create_app
+from app.firestore_service import get_user, get_tasks
 
 app = create_app()
-
-todos = ['Make  coffe', 'Sent message', 'Deliver Video ']
-
 
 @app.cli.command()
 def test():
@@ -41,8 +39,13 @@ def hello():
     user = session.get('user')
     context = {
         'user_ip' : user_ip,
-        'todos'   : todos,
+        'todos'   : get_tasks(user_id='1'),
         'user' : user,
     }
+
+    users = get_user()
+    for use in users:
+        print(use.id) #only with id
+        print(use.to_dict()['username'])
 
     return render_template('hello.html', **context)
