@@ -36,7 +36,6 @@ def get_user(username):
         return None
 
 def create_user(user):
-    print('------------------->>>>>>>>>>>>>>>>>>>>>>>>',user)
     new_user = db.collection('users').document(str(user.id))
     new_user.set({
         'id': user.id,
@@ -44,6 +43,9 @@ def create_user(user):
         'password': user.password,
         })
 
+def create_task(user_id, description):
+    task_collection_ref = db.collection('users').document(user_id).collection('tasks')
+    task_collection_ref.add({'description': description})
 
 def get_tasks(user_id):
     return db.collection('users')\
