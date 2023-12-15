@@ -40,18 +40,21 @@ def hello():
     user_ip = session.get("user_ip")
     user = current_user
     task_form = TaskForm()
+    
+    if task_form.validate_on_submit():
+
+        create_task(user_id=str(user.id), description=task_form.description.data)
+        flash('A new task has been created')
+        
+        return redirect(url_for('hello'))
+
     tasks = get_tasks(str(user.id))
+
     context = {
         'user_ip' : user_ip,
         'tasks'   : tasks,
         'user' : user,
         'task_form' : task_form,
     }
-
-    if task_form.validate_on_submit():
-        create_task(user_id=str(user.id), description=task_form.description.data)
-        flash('New task has been created')
-
-        return redirect(url_for('hello'))
     
     return render_template('hello.html', **context)
