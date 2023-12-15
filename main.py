@@ -1,5 +1,5 @@
 from flask import request, make_response, redirect, render_template, session, url_for, flash
-
+from flask_login import login_required, current_user
 import unittest
 
 from app import create_app
@@ -33,19 +33,18 @@ def index():
 
     return response
 
+
 @app.route('/hello', methods=['GET'])
+@login_required
 def hello():
     user_ip = session.get("user_ip")
-    user = session.get('user')
+    user = current_user
+    tasks = get_tasks(str(user.id))
+    print('-------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',tasks)
     context = {
         'user_ip' : user_ip,
-        'todos'   : get_tasks(user_id='1'),
+        'tasks'   : tasks,
         'user' : user,
     }
-
-    users = get_user()
-    for use in users:
-        print(use.id) #only with id
-        print(use.to_dict()['username'])
 
     return render_template('hello.html', **context)

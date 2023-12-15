@@ -7,15 +7,16 @@
 
 {% block content %}
     {% if user %}
-        <h1>Welcome, {{ user | capitalize }}</h1>
+        <h1>Welcome, {{ user.username | capitalize }}</h1>
         {% if user_ip %}
             <h3>Your Ip is {{ user_ip }}</h3>
         {% else %}
             <a href="{{ url_for('index') }}">Get a Ip</a>
         {% endif %} 
-        <ul>
-            {% for item in todos %}
-                {{ macros.render_todo(item) }}
+        <h5>These are your tasks sir:</h5>
+        <ul>            
+            {% for item in tasks %}
+                {{ macros.renderize_all(item) }}
             {% endfor %}
         </ul>
     {% endif %}

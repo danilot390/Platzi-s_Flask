@@ -2,3 +2,4 @@ env/
 __*
 app/static/images/
 !__init__.py
+notes.txt
