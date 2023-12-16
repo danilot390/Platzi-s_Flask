@@ -10,3 +10,6 @@ class LoginForm(FlaskForm):
 class TaskForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     submit = SubmitField('Create')
+
+class DeleteTaskForm(FlaskForm):
+    submit = SubmitField('Delete')

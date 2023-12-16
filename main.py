@@ -3,8 +3,8 @@ from flask_login import login_required, current_user, LoginManager
 import unittest
 
 from app import create_app
-from app.firestore_service import get_user, get_tasks, create_task
-from app.forms import TaskForm
+from app.firestore_service import get_user, get_tasks, create_task, delete_task
+from app.forms import TaskForm, DeleteTaskForm
 app = create_app()
 
 @app.cli.command()
@@ -40,6 +40,7 @@ def hello():
     user_ip = session.get("user_ip")
     user = current_user
     task_form = TaskForm()
+    delete_task_form = DeleteTaskForm()
     
     if task_form.validate_on_submit():
 
@@ -55,6 +56,14 @@ def hello():
         'tasks'   : tasks,
         'user' : user,
         'task_form' : task_form,
+        'delete_form' : delete_task_form
     }
     
     return render_template('hello.html', **context)
+
+@app.route('/task/delete/<task_id>', methods=['POST'])
+def delete_tasks(task_id):
+    user_id = current_user.id
+    delete_task(user_id, task_id)
+
+    return redirect(url_for('hello'))

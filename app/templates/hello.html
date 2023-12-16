@@ -21,11 +21,11 @@
             <h2>Create a new task</h2>
             {{ wtf.quick_form(task_form)}}
         </div>
-        <br> <hr>
+       <hr><br> 
         <h5>These are your tasks sir:</h5>
         <ul>            
             {% for item in tasks %}
-                {{ macros.renderize_all(item) }}
+                {{ macros.renderize_all(item, delete_form) }}
             {% endfor %}
         </ul>
     </div>
