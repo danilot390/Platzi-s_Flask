@@ -3,8 +3,8 @@ from flask_login import login_required, current_user, LoginManager
 import unittest
 
 from app import create_app
-from app.firestore_service import get_user, get_tasks, create_task, delete_task
-from app.forms import TaskForm, DeleteTaskForm
+from app.firestore_service import get_user, get_tasks, create_task, delete_task, up_task
+from app.forms import TaskForm, DeleteTaskForm, UpdateTaskForm
 app = create_app()
 
 @app.cli.command()
@@ -41,7 +41,7 @@ def hello():
     user = current_user
     task_form = TaskForm()
     delete_task_form = DeleteTaskForm()
-    
+    update_task_form = UpdateTaskForm()
     if task_form.validate_on_submit():
 
         create_task(user_id=str(user.id), description=task_form.description.data)
@@ -56,7 +56,8 @@ def hello():
         'tasks'   : tasks,
         'user' : user,
         'task_form' : task_form,
-        'delete_form' : delete_task_form
+        'delete_form' : delete_task_form,
+        'update_form' : update_task_form,
     }
     
     return render_template('hello.html', **context)
@@ -65,5 +66,13 @@ def hello():
 def delete_tasks(task_id):
     user_id = current_user.id
     delete_task(user_id, task_id)
+
+    return redirect(url_for('hello'))
+
+@app.route('/tasks/update/<task_id>/<int:done>', methods=['POST'])
+def update_task(task_id, done):
+    user_id = current_user.id
+
+    up_task(user_id=user_id, task_id=task_id, done=done)
 
     return redirect(url_for('hello'))

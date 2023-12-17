@@ -13,3 +13,6 @@ class TaskForm(FlaskForm):
 
 class DeleteTaskForm(FlaskForm):
     submit = SubmitField('Delete')
+
+class UpdateTaskForm(FlaskForm):
+    submit = SubmitField('Update')

@@ -51,8 +51,7 @@ def create_task(user_id, description):
         })
     
 def delete_task(user_id, task_id):
-    task_ref = db.document('users/{}/tasks/{}'.format(user_id, task_id))
-    #task_ref = db.collection('users').document(user_id).collection('tasks').document(task_id)
+    task_ref = _get_task_ref(user_id, task_id)
     task_ref.delete()
 
 
@@ -60,3 +59,11 @@ def get_tasks(user_id):
     return db.collection('users')\
         .document(user_id)\
         .collection('tasks').get()
+
+def up_task(user_id, task_id, done):
+    task_ref = _get_task_ref(user_id, task_id)
+    done = True if done == 0 else False
+    task_ref.update({'done': done})
+    
+def _get_task_ref(user_id, task_id):
+    return db.document('users/{}/tasks/{}'.format(user_id, task_id))

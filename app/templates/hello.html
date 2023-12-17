@@ -25,7 +25,7 @@
         <h5>These are your tasks sir:</h5>
         <ul>            
             {% for item in tasks %}
-                {{ macros.renderize_all(item, delete_form) }}
+                {{ macros.renderize_all(item, delete_form, update_form) }}
             {% endfor %}
         </ul>
     </div>
